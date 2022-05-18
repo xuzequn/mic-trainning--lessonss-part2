@@ -1,0 +1,133 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option go_package="/pb";
+
+service ProductService{
+    // 产品
+    rpc ProductList(ProductConditionReq) returns (ProductsRes);
+    rpc BatchGetProduct(BatchProductIdReq) returns (ProductsRes);
+    rpc CreateProduct(CreateProductItem) returns (ProductItemRes);
+    rpc DeleteProduct(ProductDelItem) returns (google.protobuf.Empty);
+    rpc UpdateProduct(CreateProductItem) returns(google.protobuf.Empty);
+    rpc GetProductDetail(ProductItemReq) returns (ProductItemRes);
+    // 产品分类
+    rpc GetAllCategoryList(google.protobuf.Empry) returns (CategoriesRes);
+    rpc GetSubCategory(CategoriesReq) returns(SubCategoriesRes);
+    rpc CreateCategory(CategoryItemReq) returns (CategoryItemRes);
+    rpc DeleteCategory(CategoryDelReq) returns (google.protobuf.Empty);
+    rpc UpdateCategory(CategoryItemReq) returns (google.protobuf.Empty);
+}
+
+message CategoryDelReq{
+    int32 id=1;
+}
+
+message SubCategoriesRes{
+    int32 total=1;
+    CategoryItemRes info=2;
+    repeated CategoryItemRes subCategoryList=3;
+    string categoryJsonFormat=4;
+
+}
+
+message CategoriesReq{
+    int32 id=1;
+    int32 level=2;
+}
+
+message CategoryItemReq{
+    int32 id=1;
+    string name=2;
+    int32 parentCategoryId=3;
+    int32 level=4;
+}
+
+message CategoriesRes{
+    int32 total=1;
+    repeated CategoryItemRes infoResList=2;
+    string categoryJsonFormat=3;
+
+}
+
+message CategoryItemRes{
+    int32 id=1;
+    string name=2;
+    int32 parentCategoryId=3;
+    int32 level=4;
+}
+
+message ProductItemReq{
+    int32 id=1;
+}
+
+message ProductDelItem{
+    int32 id=1;
+}
+
+message CreateProductItem{
+    int32 id=1;
+    string name=2;
+    string sn=3;
+    string stocks=4;
+    float price=5;
+    float realPrice=6;
+    string shortDesc=7;
+    string productDesc=8;
+    repeated string images=9;
+    repeated string descImages=10;
+    string coverImage=11;
+    bool isNew=12;
+    bool isPop=13;
+    bool selling=14;
+    int32 brandId=15;
+    int32 favNUm=16;
+    int32 soldNum=17;
+
+}
+
+message BatchProductIdReq{
+    repeated int32 ids=1;
+}
+
+message ProductConditionReq{
+    int32 minPrice=1;
+    int32 maxPrice=2;
+    bool isPop=3;
+    bool isNew=4;
+    int32 categoryId=5;
+    int32 pageNo=6;
+    int32 pageSize=7;
+    string keyWord=8;
+    int32 brandId=9;
+}
+
+message ProductItemRes{
+    int32 Id=1;
+    int32 categoryId=2;
+    string name=3;
+    string sn=4;
+    int32 stocks=5;
+    int32 soldNum=6;
+    int32 favNum=7;
+    float price=8;
+    float realPrice=9;
+    string shortDesc=10;
+    string desc=11;
+    repeated string images=12;
+    repeated string descImages=13;
+    string coverImages=14;
+    bool isNew=15;
+    bool isPop=16;
+    bool selling=17;
+    int64 addTime=18;
+    CategoryShortItemRes category=19;
+    BrandItemRes brand=20;
+
+
+}
+
+message ProductsRes {
+    int32 total=1;
+    repeated ProductItemRes itemList=2;
+
+}
