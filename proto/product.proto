@@ -3,7 +3,7 @@ import "google/protobuf/empty.proto";
 option go_package="/pb";
 
 service ProductService{
-    // 产品
+    // 产品相关
     rpc ProductList(ProductConditionReq) returns (ProductsRes);
     rpc BatchGetProduct(BatchProductIdReq) returns (ProductsRes);
     rpc CreateProduct(CreateProductItem) returns (ProductItemRes);
@@ -11,11 +11,96 @@ service ProductService{
     rpc UpdateProduct(CreateProductItem) returns(google.protobuf.Empty);
     rpc GetProductDetail(ProductItemReq) returns (ProductItemRes);
     // 产品分类
-    rpc GetAllCategoryList(google.protobuf.Empry) returns (CategoriesRes);
+    rpc GetAllCategoryList(google.protobuf.Empty) returns (CategoriesRes);
     rpc GetSubCategory(CategoriesReq) returns(SubCategoriesRes);
     rpc CreateCategory(CategoryItemReq) returns (CategoryItemRes);
     rpc DeleteCategory(CategoryDelReq) returns (google.protobuf.Empty);
     rpc UpdateCategory(CategoryItemReq) returns (google.protobuf.Empty);
+    // 品牌相关
+    rpc BandList(BrandPagingReq) returns (BrandRes);
+    rpc CreateBrand(BrandItemReq) returns (BrandItemRes);
+    rpc DeleteBrand(BrandItemReq) returns (google.protobuf.Empty);
+    rpc UpdateBrand(BrandItemReq) returns (google.protobuf.Empty);
+    // 广告相关
+    rpc AdvertiseList(google.protobuf.Empty) returns (AdvertisesRes);
+    rpc CreateAdvertise(AdvertiseReq) returns (AdvertiseItemRes);
+    rpc DeleteAdvertise(AdvertiseReq) returns (google.protobuf.Empty);
+    rpc UpdateAdvertise(AdvertiseReq) returns (google.protobuf.Empty);
+    // 品牌分类
+    rpc CategoryBrandList(PagingReq) returns (CategoryBrandListRes);
+    rpc GetCategoryBrandList(CategoryItemReq) returns (CategoryItemRes);
+    rpc CreateCategoryBrand(CategoryBrandReq) returns (CategoryBrandRes);
+    rpc DeleteCategoryBrand(CategoryBrandReq) returns (google.protobuf.Empty);
+    rpc UpdateCategoryBrand(CategoryBrandReq) returns (google.protobuf.Empty);
+
+
+}
+message CategoryBrandReq{
+    int32 id=1;
+    BrandItemRes brand=2;
+    CategoryItemRes category=3;
+
+}
+
+message CategoryBrandRes{
+    int32 id=1;
+    BrandItemRes brand=2;
+    CategoryItemRes category=3;
+}
+
+message CategoryBrandListRes{
+    int32 total=1;
+    repeated CategoryBrandRes itemList=2;
+}
+
+message PagingReq{
+    int32 pageNo=1;
+    int32 pageSize=2;
+}
+
+message AdvertiseReq{
+    int32 id=1;
+    int32 index=2;
+    string images=3;
+    string url=4;
+
+}
+
+message AdvertisesRes{
+    int32 total=1;
+    repeated AdvertiseItemRes itemList=2;
+
+}
+
+message AdvertiseItemRes{
+    int32 id=1;
+    int32 index=2;
+    string images=3;
+    string url=4;
+
+
+}
+
+message BrandItemReq{
+    int32 id=1;
+    string name=2;
+    string logo=3;
+}
+
+message BrandPagingReq{
+    int32 pageNo=1;
+    int32 pageSize=2;
+}
+
+message BrandRes{
+    int32 total=1;
+    repeated BrandItemRes itemList=2;
+}
+
+message BrandItemRes{
+    int32 id=1;
+    string name=2;
+    string logo=3;
 }
 
 message CategoryDelReq{
@@ -120,7 +205,7 @@ message ProductItemRes{
     bool isPop=16;
     bool selling=17;
     int64 addTime=18;
-    CategoryShortItemRes category=19;
+    CategoryItemRes category=19;
     BrandItemRes brand=20;
 
 

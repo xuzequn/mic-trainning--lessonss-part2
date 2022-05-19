@@ -11,7 +11,7 @@ type BaseModel struct {
 	ID       int32 `gorm:"primary_key"`
 	CreateAt time.Time
 	UpdateAt time.Time
-	DeleteAt gorm.DeletedAt `gotm:"index"`
+	DeleteAt gorm.DeletedAt `gorm:"index"`
 }
 
 type Category struct {
@@ -19,7 +19,7 @@ type Category struct {
 	Name             string `gorm:"type:varchar(32);not null"`
 	ParentCategoryID int32
 	ParentCategory   *Category
-	SubCategory      []*Category `gorm:"foreignKey:ParentCategoryId;references:ID"`
+	SubCategory      []*Category `gorm:"foreignKey:ParentCategoryID;references:ID"`
 }
 
 type Brand struct {
