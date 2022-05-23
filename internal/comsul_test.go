@@ -6,9 +6,9 @@ import (
 )
 
 func TestReg(t *testing.T) {
-	err := Reg(AppConf.AccountWebConfig.Host, AppConf.AccountWebConfig.SrvName,
-		AppConf.AccountWebConfig.SrvName, AppConf.AccountWebConfig.Port,
-		AppConf.AccountWebConfig.Tags)
+	err := Reg(AppConf.ProductWebConfig.Host, AppConf.ProductWebConfig.SrvName,
+		AppConf.ProductWebConfig.SrvName, AppConf.ProductWebConfig.Port,
+		AppConf.ProductWebConfig.Tags)
 	if err != nil {
 		fmt.Println(err)
 	} else {
