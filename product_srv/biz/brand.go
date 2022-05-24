@@ -64,13 +64,27 @@ func (p ProductServer) BandList(ctx context.Context, req *pb.BrandPagingReq) (*p
 }
 
 func (p ProductServer) DeleteBrand(ctx context.Context, req *pb.BrandItemReq) (*emptypb.Empty, error) {
-	//TODO implement me
-	panic("implement me")
+	r := internal.DB.Delete(&model.Brand{}, req.Id)
+	if r.Error != nil {
+		return nil, errors.New(custom_error.DelBrandFail)
+	}
+	return &emptypb.Empty{}, nil
 }
 
 func (p ProductServer) UpdateBrand(ctx context.Context, req *pb.BrandItemReq) (*emptypb.Empty, error) {
-	//TODO implement me
-	panic("implement me")
+	var brand model.Brand
+	r := internal.DB.First(&brand, req.Id)
+	if r.RowsAffected < 1 {
+		return nil, errors.New(custom_error.BrandNotExits)
+	}
+	if req.Name != "" {
+		brand.Name = req.Name
+	}
+	if req.Logo != "" {
+		brand.Logo = req.Logo
+	}
+	internal.DB.Save(&brand)
+	return &emptypb.Empty{}, nil
 }
 
 func ConverBrandModel2Pb(item model.Brand) *pb.BrandItemRes {
