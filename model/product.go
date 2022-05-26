@@ -19,6 +19,7 @@ type Category struct {
 	Name             string `gorm:"type:varchar(32);not null"`
 	ParentCategoryID int32
 	ParentCategory   *Category
+	Level            int32
 	SubCategory      []*Category `gorm:"foreignKey:ParentCategoryID;references:ID"`
 }
 
@@ -44,7 +45,7 @@ type Product struct {
 	BrandID int32 `gorm:"type:int;not null"`
 	Brand   Brand
 
-	Selling  bool `gorm:"default:false""`
+	Selling  bool `gorm:"default:false"`
 	ShipFree bool `gorm:"default:false"`
 	IsPop    bool `gorm:"default:false"`
 	IsNew    bool `gorm:"default:false"`
@@ -68,5 +69,5 @@ func (myList MyList) Value() (driver.Value, error) {
 }
 
 func (myList MyList) Scan(v interface{}) error {
-	return json.Unmarshal(v.([]byte), myList)
+	return json.Unmarshal(v.([]byte), &myList)
 }
