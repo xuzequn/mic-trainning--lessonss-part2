@@ -8,10 +8,10 @@ import (
 )
 
 type BaseModel struct {
-	ID       int32 `gorm:"primary_key"`
-	CreateAt time.Time
-	UpdateAt time.Time
-	DeleteAt gorm.DeletedAt `gorm:"index"`
+	ID        int32 `gorm:"primary_key"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
 type Category struct {

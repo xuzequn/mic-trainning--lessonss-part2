@@ -12,7 +12,7 @@ import (
 
 func (p ProductServer) CreateBrand(ctx context.Context, req *pb.BrandItemReq) (*pb.BrandItemRes, error) {
 	var brand model.Brand
-	r := internal.DB.Find("name=? and log=?", req.Name, req.Logo)
+	r := internal.DB.Find("name=? and logo=?", req.Name, req.Logo)
 	if r.RowsAffected > 0 {
 		return nil, errors.New(custom_error.BrandAlreadyExits)
 	}
@@ -40,7 +40,7 @@ func (p ProductServer) BandList(ctx context.Context, req *pb.BrandPagingReq) (*p
 	//第一种分页
 	//var count int64
 	//skip := (req.PageNo - 1) * req.PageSize
-	//r := internal.DB.Model(&model.Brand{}).Count(&count).Offset(int(skip)).Limit(int(req.PageSize)).Find(&brandList)
+	//r = internal.DB.Model(&model.Brand{}).Count(&count).Offset(int(skip)).Limit(int(req.PageSize)).Find(&brandList)
 	//if r.RowsAffected < 1 {
 	//	// TODO: 根据业务需求进一步判断
 	//}
