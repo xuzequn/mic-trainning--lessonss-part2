@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"mic-trainning-lessons-part2/custom_error"
 	"mic-trainning-lessons-part2/internal"
@@ -21,8 +20,7 @@ func (p ProductServer) CreateCategory(ctx context.Context, req *pb.CategoryItemR
 	if category.Level > 1 {
 		category.ParentCategoryID = req.ParentCategoryId
 	}
-	r := internal.DB.Save(&category)
-	fmt.Println(r.Error.Error())
+	internal.DB.Save(&category)
 	res := ConventCategoryModel2Pb(category)
 	return res, nil
 }
@@ -31,15 +29,16 @@ func (p ProductServer) GetAllCategoryList(ctx context.Context, empty *emptypb.Em
 	var categoryList []model.Category
 	internal.DB.Where(&model.Category{Level: 1}).Preload("SubCategory.SubCategory").Find(&categoryList)
 	var res pb.CategoriesRes
-	var items []*pb.CategoryItemRes
-	for _, c := range categoryList {
-		items = append(items, ConventCategoryModel2Pb(c))
-	}
-	b, err := json.Marshal(items)
+	//var items []*pb.CategoryItemRes
+	//for _, c := range categoryList {
+	//	internal.DB.Where(*model.Category{ParentCategory: c.ID}).Preload("SubCategory.SubCategory").Find()
+	//	items = append(items, ConventCategoryModel2Pb(c))
+	//}
+	b, err := json.Marshal(categoryList)
 	if err != nil {
 		return nil, errors.New(custom_error.MarshalCategoryFailed)
 	}
-	res.InfoResList = items
+	//res.InfoResList = items
 	res.CategoryJsonFormat = string(b)
 	return &res, nil
 }

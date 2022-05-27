@@ -15,6 +15,8 @@ var NacosConf NacosConfig
 //var ViperConf ViperConfig
 var fileName = "../../dev-config.yaml"
 
+//var fileName = "dev-config.yaml"
+
 func initNacos() {
 	v := viper.New()
 	v.SetConfigFile(fileName)
