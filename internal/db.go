@@ -50,7 +50,7 @@ func InitDB() {
 	if err != nil {
 		panic("数据库连接失败" + err.Error())
 	}
-	err = DB.AutoMigrate(&model.Category{}, &model.Brand{}, &model.Advertise{}, &model.Product{})
+	err = DB.AutoMigrate(&model.Category{}, &model.Brand{}, &model.Advertise{}, &model.Product{}, &model.ProductCategoryBrand{})
 	if err != nil {
 		fmt.Println(err)
 	}

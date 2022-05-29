@@ -62,6 +62,12 @@ type Product struct {
 	CoverImage string  `gorm:"type:varchar(256);not null"`
 }
 
+type ProductCategoryBrand struct {
+	BaseModel
+	BrandID    int32 `gorm:"type:int;not null"`
+	CategoryID int32 `gorm:"type:int;not null"`
+}
+
 type MyList []string
 
 func (myList MyList) Value() (driver.Value, error) {

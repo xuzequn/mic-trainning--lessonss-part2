@@ -17,6 +17,11 @@ func (p ProductServer) GetCategoryBrandList(ctx context.Context, req *pb.Categor
 }
 
 func (p ProductServer) CreateCategoryBrand(ctx context.Context, req *pb.CategoryBrandReq) (*pb.CategoryBrandRes, error) {
+	//var res pb.CategoryBrandRes
+	//var item model
+	//// 分类判断
+	//// 品牌判断
+	//// 是否已经存在关系
 	//TODO implement me
 	panic("implement me")
 }
