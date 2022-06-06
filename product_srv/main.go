@@ -11,7 +11,6 @@ import (
 	"mic-trainning-lessons-part2/internal"
 	"mic-trainning-lessons-part2/product_srv/biz"
 	"mic-trainning-lessons-part2/proto/pb"
-	"mic-trainning-lessons-part2/util"
 	"net"
 )
 
@@ -26,7 +25,8 @@ func main() {
 		    3、拷贝之前main文件的函数、查缺补漏
 	*/
 
-	port := util.GenRandomPort()
+	//port := util.GenRandomPort()
+	port := internal.AppConf.ProductSrvConfig.Port
 	addr := fmt.Sprintf("%s:%d", internal.AppConf.ProductSrvConfig.Host, port)
 	// 将定义的对象注册grpc服务
 	server := grpc.NewServer()

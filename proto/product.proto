@@ -28,7 +28,7 @@ service ProductService{
     rpc UpdateAdvertise(AdvertiseReq) returns (google.protobuf.Empty);
     // 品牌分类
     rpc CategoryBrandList(PagingReq) returns (CategoryBrandListRes);
-    rpc GetCategoryBrandList(CategoryItemReq) returns (CategoryItemRes);
+    rpc GetCategoryBrandList(CategoryItemReq) returns (BrandRes);
     rpc CreateCategoryBrand(CategoryBrandReq) returns (CategoryBrandRes);
     rpc DeleteCategoryBrand(CategoryBrandReq) returns (google.protobuf.Empty);
     rpc UpdateCategoryBrand(CategoryBrandReq) returns (google.protobuf.Empty);
@@ -167,6 +167,8 @@ message CreateProductItem{
     int32 brandId=15;
     int32 favNUm=16;
     int32 soldNum=17;
+    int32 categoryId=18;
+    bool isShipFree=19;
 
 }
 
@@ -197,7 +199,7 @@ message ProductItemRes{
     float price=8;
     float realPrice=9;
     string shortDesc=10;
-    string desc=11;
+    BrandItemRes brand=11;
     repeated string images=12;
     repeated string descImages=13;
     string coverImages=14;
@@ -206,7 +208,7 @@ message ProductItemRes{
     bool selling=17;
     int64 addTime=18;
     CategoryItemRes category=19;
-    BrandItemRes brand=20;
+
 
 
 }

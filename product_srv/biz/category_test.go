@@ -13,7 +13,7 @@ import (
 
 func init() {
 
-	addr := fmt.Sprintf("%s:%d", internal.AppConf.ProductSrvConfig.Host, 60833)
+	addr := fmt.Sprintf("%s:%d", internal.AppConf.ProductSrvConfig.Host, internal.AppConf.ProductSrvConfig.Port)
 	//grpc.Dial(addr, grpc.WithInsecure())
 	conn, err := grpc.Dial(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
