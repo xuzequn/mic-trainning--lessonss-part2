@@ -41,6 +41,10 @@ func main() {
 	productGroup := r.Group("/v1/product")
 	{
 		productGroup.GET("/list", handler.ProductListHandler)
+		productGroup.POST("/add", handler.AddHandler)
+		productGroup.POST("/update", handler.UpdateHandler)
+		productGroup.POST("/delete", handler.DelHandler)
+		productGroup.POST("/detail/:id", handler.DetailHandler)
 	}
 	r.GET("/health", handler.HealthHandler)
 	r.Run(addr)

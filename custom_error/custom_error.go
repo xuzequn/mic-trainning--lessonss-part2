@@ -14,4 +14,6 @@ const (
 
 	DelProductFailed = "删除产品失败"
 	ProductNotExits  = "产品不存在"
+
+	ParamError = "参数错误"
 )
