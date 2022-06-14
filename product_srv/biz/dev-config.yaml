@@ -1,0 +1,41 @@
+#nacos:
+host: '192.168.2.1'
+#host: '192.168.3.10'
+#host : '192.168.0.109'
+port: 8848
+#namespace: '2eade41d-4f26-4ebe-9478-479b9979f808'
+namespace: '4304ada7-2d53-45cc-894e-79967ea78be2'
+dataid: 'product.json'
+group: 'dev'
+
+#db:
+#  host: '127.0.0.1'
+#  port: 3306
+#  dbName: 'happy_account_mic_training'
+#  userName: 'root'
+#  password: '123456'
+
+#redis:
+#  host: '127.0.0.1'
+#  port: 6379
+#  password: '#foVEYdich'
+#
+#consul:
+#  host: '192.168.3.10'
+#  port: 8500
+#
+#account_srv:
+#  srvName: 'account_srv'
+#  host: '192.168.3.10'
+#  port: 9095
+#  tags:
+#    - happy
+#    - account_srv
+#
+#account_web:
+#  srvName: 'account_web'
+#  host: '192.168.3.10'
+#  port: 8081
+#  tags:
+#    - happy
+#    - account_web

@@ -31,7 +31,7 @@ func (p ProductServer) ProductList(ctx context.Context, req *pb.ProductCondition
 		iDb = iDb.Where("brand = ?", req.BrandId)
 	}
 	if req.KeyWord != "" {
-		iDb = iDb.Where("key_wprd like ?", "%"+req.KeyWord+"%")
+		iDb = iDb.Where("key_word like ?", "%"+req.KeyWord+"%")
 	}
 	if req.MinPrice > 0 {
 		iDb = iDb.Where("min_price > ?", req.MinPrice)

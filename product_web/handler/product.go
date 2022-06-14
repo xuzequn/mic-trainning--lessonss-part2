@@ -21,7 +21,7 @@ func init() {
 	addr := fmt.Sprintf("%s:%d", internal.AppConf.ProductSrvConfig.Host, internal.AppConf.ProductSrvConfig.Port)
 	conn, err := grpc.Dial(addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithDefaultServiceConfig(`{loadBalancingPolicy:"round_robbin"}`),
+		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robbin"}`),
 	)
 	if err != nil {
 		zap.S().Fatal(err)
@@ -105,7 +105,7 @@ func ProductListHandler(c *gin.Context) {
 	}
 	condition.PageSize = int32(pageSize)
 
-	keyWord := c.DefaultQuery("keyWord", "0")
+	keyWord := c.DefaultQuery("keyWord", "")
 	if err != nil {
 		zap.S().Error("keyWord error")
 		c.JSON(http.StatusOK, gin.H{

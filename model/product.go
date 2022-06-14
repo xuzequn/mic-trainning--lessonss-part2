@@ -45,10 +45,11 @@ type Product struct {
 	BrandID int32 `gorm:"type:int;not null"`
 	Brand   Brand
 
-	Selling    bool `gorm:"default:false"`
-	IsShipFree bool `gorm:"default:false"`
-	IsPop      bool `gorm:"default:false"`
-	IsNew      bool `gorm:"default:false"`
+	Selling    bool   `gorm:"default:false"`
+	IsShipFree bool   `gorm:"default:false"`
+	IsPop      bool   `gorm:"default:false"`
+	IsNew      bool   `gorm:"default:false"`
+	KeyWord    string `gorm:"type:varchar(64);not null"`
 
 	Name       string  `gorm:"type:varchar(64);not null"`
 	SN         string  `gorm:"type:varchar(64);not null"`

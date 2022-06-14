@@ -3,34 +3,36 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/satori/go.uuid"
+	"go.uber.org/zap"
 	"mic-trainning-lessons-part2/internal"
+	"mic-trainning-lessons-part2/internal/register"
 	"mic-trainning-lessons-part2/product_web/handler"
 	"mic-trainning-lessons-part2/util"
+	"os"
+	"os/signal"
+	"syscall"
+)
+
+var (
+	consulRegistry register.ConsulRegistry
+	randomId       string
 )
 
 func init() {
-	fmt.Println(internal.AppConf)
-	err := internal.Reg(internal.AppConf.ProductWebConfig.Host,
-		internal.AppConf.ProductWebConfig.SrvName,
-		internal.AppConf.ProductWebConfig.SrvName,
-		internal.AppConf.ProductWebConfig.Port,
-		internal.AppConf.ProductWebConfig.Tags)
-	if err != nil {
-		panic(err)
-	}
 
+	randomPort := util.GenRandomPort()
+	if !internal.AppConf.Debug {
+		internal.AppConf.ProductWebConfig.Port = randomPort
+	}
+	randomId = uuid.NewV4().String()
+	consulRegistry = register.NewConsulRegistry(internal.AppConf.ConsulConfig.Host,
+		int(internal.AppConf.ConsulConfig.Port))
+	consulRegistry.Register(internal.AppConf.ProductWebConfig.SrvName, randomId,
+		internal.AppConf.ProductWebConfig.Port, internal.AppConf.ProductWebConfig.Tags)
 }
 
 func main() {
-	//addrs, err := net.InterfaceAddrs()
-	//if err != nil {
-	//	panic(err)
-	//}
-	//fmt.Println(addrs)
-	//ip := flag.String("ip", "0.0.0.0", "输入Ip")
-	//port := flag.Int("port", 8081, "输入端口")
-	//flag.Parse()
-	//addr := fmt.Sprintf("%s:%d", *ip, *port)
 	ip := internal.AppConf.ProductWebConfig.Host
 	port := util.GenRandomPort()
 	if internal.AppConf.Debug {
@@ -44,8 +46,24 @@ func main() {
 		productGroup.POST("/add", handler.AddHandler)
 		productGroup.POST("/update", handler.UpdateHandler)
 		productGroup.POST("/delete", handler.DelHandler)
-		productGroup.POST("/detail/:id", handler.DetailHandler)
+		productGroup.GET("/detail/:id", handler.DetailHandler)
 	}
 	r.GET("/health", handler.HealthHandler)
-	r.Run(addr)
+	go func() {
+		err := r.Run(addr)
+		if err != nil {
+			zap.S().Panic(addr + "启动失败" + err.Error())
+		} else {
+			zap.S().Info(addr + "启动成功")
+		}
+	}()
+	q := make(chan os.Signal)
+	signal.Notify(q, syscall.SIGINT, syscall.SIGTERM)
+	<-q
+	err := consulRegistry.DeRegister(randomId)
+	if err != nil {
+		zap.S().Panic("注销失败" + randomId + ":" + err.Error())
+	} else {
+		zap.S().Info("注销成功" + randomId)
+	}
 }
