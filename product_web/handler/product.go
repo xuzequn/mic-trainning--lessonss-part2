@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	_ "github.com/mbobakov/grpc-consul-resolver" // 让 grpc 可以解析consul协议
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -18,8 +19,9 @@ import (
 var productClient pb.ProductServiceClient
 
 func init() {
-	addr := fmt.Sprintf("%s:%d", internal.AppConf.ProductSrvConfig.Host, internal.AppConf.ProductSrvConfig.Port)
-	conn, err := grpc.Dial(addr,
+	addr := fmt.Sprintf("%s:%d", internal.AppConf.ConsulConfig.Host, internal.AppConf.ConsulConfig.Port)
+	dialAddr := fmt.Sprintf("consul://%s/%s?wait=14s", addr, internal.AppConf.ProductSrvConfig.SrvName)
+	conn, err := grpc.Dial(dialAddr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 		grpc.WithDefaultServiceConfig(`{"loadBalancingPolicy":"round_robbin"}`),
 	)

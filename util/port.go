@@ -12,11 +12,11 @@ func GenRandomPort() int {
 		panic(err)
 	}
 	fmt.Println(addr)
-	lintener, err := net.ListenTCP("tcp", addr)
+	listener, err := net.ListenTCP("tcp", addr)
 	if err != nil {
 		panic(err)
 	}
-	defer lintener.Close()
-	port := lintener.Addr().(*net.TCPAddr).Port
+	defer listener.Close()
+	port := listener.Addr().(*net.TCPAddr).Port
 	return port
 }
