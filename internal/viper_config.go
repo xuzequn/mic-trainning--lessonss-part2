@@ -71,4 +71,5 @@ func init() {
 	initFromNacos()
 	fmt.Println("config初始化完成。。。")
 	InitRedis()
+	InitES()
 }

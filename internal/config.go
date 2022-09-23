@@ -20,6 +20,7 @@ type AppConfig struct {
 	ConsulConfig     ConsulConfig     `mapstructure:"consul" json:"consul"`
 	ProductSrvConfig ProductSrvConfig `mapstructure:"product_srv" json:"product_srv"`
 	ProductWebConfig ProductWebConfig `mapstructure:"product_web" json:"product_web"`
+	EsConfig         ESConfig         `mapstructure:"es" json:"es"`
 	JWTConfig        JWTConfig        `mapstructure:"jwt" json:"jwt"`
 	Debug            bool             `mapstructure:"debug" json:"debug"`
 }

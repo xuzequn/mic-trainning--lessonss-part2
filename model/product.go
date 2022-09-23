@@ -1,9 +1,12 @@
 package model
 
 import (
+	"context"
 	"database/sql/driver"
 	"encoding/json"
 	"gorm.io/gorm"
+	"mic-trainning-lessons-part2/internal"
+	"strconv"
 	"time"
 )
 
@@ -81,3 +84,28 @@ func (myList MyList) Value() (driver.Value, error) {
 func (myList MyList) Scan(v interface{}) error {
 	return json.Unmarshal(v.([]byte), &myList)
 }
+
+func (p *Product) AfterCreate(tx *gorm.Tx) error {
+	esProduct := ESProduct{
+		ID:         0,
+		BrandID:    0,
+		CategoryID: 0,
+		Selling:    false,
+		ShipFree:   false,
+		IsPop:      false,
+		IsNew:      false,
+		Name:       "",
+		FavNum:     0,
+		SoldNum:    0,
+		Price:      0,
+		RealPrice:  0,
+		ShortDesc:  "",
+	}
+	_, err := internal.ESClient.Index().Index(GetIndex()).BodyJson(esProduct).Id(strconv.Itoa(int(p.ID))).Do(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	return err
+}
+
+// 更新删除操作同步到es

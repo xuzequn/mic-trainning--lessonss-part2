@@ -2,10 +2,11 @@ package jwt_op
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
 	"mic-trainning-lessons/internal"
 	"mic-trainning-lessons/log"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
 )
 
 const (
